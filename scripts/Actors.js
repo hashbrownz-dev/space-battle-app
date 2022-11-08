@@ -61,6 +61,7 @@ const battle = (player, alien) => {
         //If the alien survives, it will attack the player
         if(isAlive(alien)){
             displayMessage(attack(alien,player));
+            displayStatus(player);
         }
     }
     //If the alien dies...

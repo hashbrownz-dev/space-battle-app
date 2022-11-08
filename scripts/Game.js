@@ -22,33 +22,56 @@ class Game{
             case "choose action":
                 this.chooseAction(input);
                 break;
+            case "play again":
+                this.playAgain(input);
+                break;
+            case "pester":
+                this.pester(input);
+                break;
             default:
                 console.log('God kill me please');
                 break;
         }
     }
-    getNextAlien(){
-        displayMessage(`${this.aliens[0].name} approaches!  What will you do?`);
+
+    start(){
+        this.player = Object.create(null);
+        this.aliens = this.spawnAliens();
+        clearDisplay();
+        clearStatus();
+        displayMessage(`What is your name?`);
     }
+
     getPlayerName(input){
         this.playerName = input;
+        // BEGIN NEXT STATE
         this.state = 'ship name';
         displayMessage(`What is your dream car?`);
     }
+
     getPlayerShipName(input){
         console.log('got the ship')
         this.shipName = input;
+        // BEGIN NEXT STATE
         this.state = 'intro';
         this.update();
     }
+
     intro(){
         this.player = new Player(this.playerName, this.shipName);
         displayIntro(this.player);
-        this.getNextAlien();
+        displayStatus(this.player);
+        // BEGIN NEXT STATE
         this.state = 'choose action';
+        this.getNextAlien();
     }
-    chooseAction(input){
 
+    getNextAlien(){
+        displayMessage(`${this.aliens[0].name} approaches!  What will you do?`);
+        displayMessage(`(A)ttack / (R)etreat`)
+    }
+
+    chooseAction(input){
         //You choose to Attack
         if(input === 'a' || input === 'attack'){
             //display attack message
@@ -62,32 +85,74 @@ class Game{
                 if(this.aliens.length > 0){
                     this.getNextAlien();
                 } else {
+                    //VICTORY
                     displayMessage(`You have defeated the alien menace!`);
+                    displayMessage(victoryMessage);
                 }
             } else {
-                //GAME OVER
+                this.gameOver();
             }
         }
         //You choose to Retreat
         if(input === 'r' || input === 'retreat'){
-            //GAME OVER
-            //Display RETREAT Message
+            this.gameOver(true);
         }
     }
-    start(){
-        displayMessage(`What is your name?`);
+
+    gameOver(retreat = false){
+        console.log('hello?')
+        if(retreat){
+            //RETREAT
+            //Display RETREAT Message
+            displayMessage(`Pathetic...`);
+            displayRetreat(this.player);
+        } else {
+            //DEFEAT
+            //Display DEFEAT Message
+            displayMessage(`The ${this.shipName} plummeted to the Earth in a dazzling crimson ball of smoke and fire!`)
+            displayLoss(this.player);
+        }
+        //BEGIN NEXT STATE
+        this.state = 'play again';
+        displayPlayAgain();
     }
+
+    playAgain(input){
+        //Reset the game
+        if(input === 'y' || input === 'yes'){
+            this.state = 'player name';
+            this.start();
+        }
+        if(input === 'n' || input === 'no'){
+            this.state = 'pester';
+            this.pester('y');
+        }
+    }
+
+    pester(input){
+        if(input === 'y' || input === 'yes'){
+            const messages = [
+                `Do you really have something better to do?`,
+                `No <strong>SPAM</strong> for you?`,
+                `Just one more minute!`
+            ]
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            displayMessage(message);
+            displayMessage(`Are you sure you want to quit?`);
+            displayMessage(`(Y)es / (N)o`);
+        }
+        if(input === 'n' || input === 'no'){
+            //Reset the game
+            this.state = 'player name';
+            this.start();
+        }
+    }
+
     spawnAliens(){
         const aliens = [];
         for(let i = 0; i < 6; i++){
             aliens.push(new Alien());
         }
         return aliens;
-    }
-    gameOver(){
-        //Display the Defeat Message
-    }
-    playAgain(input){
-        //Reset the game
     }
 }
