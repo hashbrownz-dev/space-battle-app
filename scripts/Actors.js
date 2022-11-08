@@ -6,8 +6,8 @@ class Player{
         this.accuracy = 0.7;
         this.missiles = 3;
         this.missileType = "standard";
-        this.name = name ? name : "MYBUTT";
-        this.ship = ship ? ship : "Delorean";
+        this.name = name ? name : "mybutt";
+        this.ship = ship ? ship : "delorean";
         //ATTACK property can be one of three values: laser, missile, song
         this.attack = "laser";
     }
@@ -68,7 +68,7 @@ Alien.prototype.nameList = [
 ];
 
 Alien.prototype.temperaments = [
-    'mood',
+    'moody',
     'edgy',
     'happy',
     'neutral'
@@ -83,9 +83,9 @@ const attack = (attacker, target) => {
     if(Math.random() <= attacker.accuracy){
         //Reduce the Targets Hull by the Attackers Firepower
         target.hull -= attacker.firepower;
-        return `${attacker.name} fired it's lasers, dealing ${attacker.firepower} damage to ${target.name}!`;
+        return `${capitalize(attacker.name)} fired it's lasers, dealing ${attacker.firepower} damage to ${capitalize(target.name)}!`;
     } else {
-        return `${attacker.name} fired it's lasers at ${target.name} but missed!`;
+        return `${capitalize(attacker.name)} fired it's lasers at ${capitalize(target.name)} but missed!`;
     }
 }
 
@@ -106,9 +106,9 @@ const fireMissile = (attacker, target, type) => {
     attacker.missiles--;
     if(Math.random() <= accuracy){
         target.hull -= firepower;
-        return `${attacker.name} fired a ${type} missile, dealing ${firepower} damage to ${target.name}!`;
+        return `${capitalize(attacker.name)} fired a ${capitalize(type)} missile, dealing ${firepower} damage to ${capitalize(target.name)}!`;
     } else {
-        return `${attacker.name} fired a ${type} missile, but ${target.name} evaded the attack!`;
+        return `${capitalize(attacker.name)} fired a ${capitalize(type)} missile, but ${capitalize(target.name)} evaded the attack!`;
     }
 }
 
@@ -120,19 +120,38 @@ const isAlive = (actor) => {
     return actor.hull > 0;
 }
 
+const isAttacking = (actor) => {
+    //Angry aliens attack every turn.
+    //Moody aliens counter attack occasionally.
+    //Happy always counter attacks occasionally.
+    //Neutral aliens only counter attack
+    switch(actor.temperament){
+        case 'edgy':
+            return true;
+        case 'moody':
+            //There's a 50 / 50 chance a moody alien will counter attack
+            return Math.round(Math.random()) ? true : false;
+        case 'happy':
+            //There's a 33% chance a happy alien will defend an ally
+            return Math.random() < 0.33 ? true : false;
+        case 'neutral':
+            return true;
+    }
+}
+
 //BATTLE LOOP
 
-const battle = (player, alien) => {
-
+const battle = (game, target) => {
+    const { player, aliens } = game;
     //the player attacks first
     //get player attack type
 
     switch(player.attack){
         case "laser":
-            displayMessage(attack(player,alien));
+            displayMessage(attack(player,target));
             break;
         case "missile":
-            displayMessage(fireMissile(player,alien,player.missileType));
+            displayMessage(fireMissile(player,target,player.missileType));
             break;
         case "song":
             break;
@@ -145,35 +164,50 @@ const battle = (player, alien) => {
     const attackers = [];
 
     //IS THE CURRENT ALIEN ALIVE?
-    if(alien.hull <= 0){
-        alien.status = 'dead';
+    if(target.hull <= 0){
+        target.status = 'dead';
     }
     //WHAT IS THE CURRENT ALIENS STATUS?
-    switch(alien.status){
+    switch(target.status){
         case 'active':
-            attackers.push(alien);
+            if(target.temperament !== 'moody'){
+                attackers.push(target)
+            } else {
+                if(isAttacking(target)) attackers.push(target);
+            };
             break;
         case 'fled':
             //DISPLAY RETREAT MESSAGE
             break;
         case 'dead':
-            displayMessage(`${player.name} has defeated ${alien.name}!`);
+            displayMessage(`${capitalize(player.name)} has defeated ${capitalize(target.name)}!`);
+            displayMessage(`Great work!`);
             //GET BONUS
             break;
         default:
-            console.log(`Error: Could not determine alien.status. Value: ${alien.status}`);
+            console.log(`Error: Could not determine target.status. Value: ${target.status}`);
             break;
     }
 
+    //GET THE REST OF THE ATTACKERS
+    const otherAliens = aliens.filter(alien => alien.name !== target.name);
+    otherAliens.forEach(alien => {
+        if(alien.temperament === 'edgy' || alien.temperament === 'happy'){
+            if(isAttacking(alien)) attackers.push(alien);
+        }
+    })
+    console.log(otherAliens);
+    console.log(attackers);
+
     //the aliens attack next
     attackers.forEach((attacker) => {
-        displayMessage(attack(attacker, player));
-        displayStatus(player);
-        if(!isAlive(player)){
-            //display DEFEAT Message
-            displayMessage(`${player.name} was defeated by ${attacker.name}`);
-            //exit function
-            return
+        if(isAlive(player)){
+            displayMessage(attack(attacker, player));
+            displayStatus(player);
+            if(!isAlive(player)){
+                //display DEFEAT Message
+                displayMessage(`${player.name} was defeated by ${attacker.name}`);
+            }
         }
     })
 }

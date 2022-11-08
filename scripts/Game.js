@@ -146,7 +146,7 @@ class Game{
 
     getResults(target){
         //commence battle
-        battle(this.player, target);
+        battle(this, target);
         //CLEAN UP
         //remove dead + fled aliens
         const current = this.aliens.length;
@@ -155,7 +155,6 @@ class Game{
         if(isAlive(this.player)){
             //If you killed the current alien
             if(current > this.aliens.length){
-                displayMessage(`Great work!`);
                 //If more aliens remain
                 if(this.aliens.length > 0){
                     displayMessage(`${this.aliens.length} aliens remain!`);
