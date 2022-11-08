@@ -15,7 +15,7 @@ class Alien{
         this.hull = this.hullMax;
         this.firepower = this.setFirepower();
         this.accuracy = this.setAccuracy();
-        this.name = name;
+        this.name = this.setName();
     }
     //Get a random value between 3 and 6
     setHull(){
@@ -29,7 +29,33 @@ class Alien{
     setAccuracy(){
         return Math.floor(Math.random() * (8 - 6 + 1) + 6) * 0.1;
     }
+    //Get a random name
+    setName(){
+        return this.nameList[Math.floor(Math.random() * this.nameList.length)];
+    }
 }
+
+Alien.prototype.nameList = [
+    'Karen',
+    'Kyle',
+    'Chad',
+    'Chaz',
+    'Grayson',
+    'Zayden',
+    'Bryson',
+    'Professor Pumpkin Spice',
+    'Spam Enthusiast',
+    'Spam Addict',
+    'Madison',
+    'Bentley',
+    'Hunter',
+    'Mackenzie',
+    'Mary Sue Ellen',
+    'Zorthos',
+    'Yawgmaw',
+    'Dr Sprinkles',
+    'Powdered Spam Man'
+];
 
 //ATTACK + LOG RESULT
 

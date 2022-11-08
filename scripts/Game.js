@@ -37,6 +37,7 @@ class Game{
     start(){
         this.player = Object.create(null);
         this.aliens = this.spawnAliens();
+        console.log(this.aliens);
         clearDisplay();
         clearStatus();
         displayMessage(`What is your name?`);
@@ -66,6 +67,7 @@ class Game{
     }
 
     getNextAlien(){
+        displayMessage(`${this.aliens.length} aliens remain!`);
         displayMessage(`${this.aliens[0].name} approaches!  What will you do?`);
         displayMessage(`(A)ttack / (R)etreat`)
     }
@@ -80,7 +82,7 @@ class Game{
                 if(isAlive(this.player)){
                     //remove the first element from the array
                     this.aliens.shift();
-                    displayMessage(`Great work!  ${this.aliens.length} aliens remain!`);
+                    displayMessage(`Great work!`);
                     if(this.aliens.length > 0){
                         this.getNextAlien();
                     } else {
@@ -168,8 +170,19 @@ class Game{
 
     spawnAliens(){
         const aliens = [];
-        for(let i = 0; i < 6; i++){
-            aliens.push(new Alien());
+        const max = 12, min = 6;
+        const limit = Math.floor(Math.random() * (max - min + 1) + min);
+        const validateName = (alien) => {
+            //Check to make sure that no other alien has this name
+            if(aliens.some(element => element.name === alien.name)){
+                alien.name = alien.setName();
+                return validateName(alien);
+            }
+            return alien;
+        }
+        for(let i = 0; i < limit; i++){
+            const alien = validateName(new Alien());
+            aliens.push(alien);
         }
         return aliens;
     }
