@@ -103,7 +103,6 @@ class Game{
     }
 
     gameOver(retreat = false){
-        console.log('hello?')
         if(retreat){
             //RETREAT
             //Display RETREAT Message
@@ -122,32 +121,48 @@ class Game{
 
     playAgain(input){
         //Reset the game
-        if(input === 'y' || input === 'yes'){
-            this.state = 'player name';
-            this.start();
-        }
-        if(input === 'n' || input === 'no'){
-            this.state = 'pester';
-            this.pester('y');
+        switch(input){
+            case 'y':
+            case 'yes':
+                this.state = 'player name';
+                this.start();
+                break;
+            case 'n':
+            case 'no':
+                this.state = 'pester';
+                this.pester('y');
+                break;
+            default:
+                const valid = ['y','yes','n','no'];
+                displayError(valid);
+                break;
         }
     }
 
     pester(input){
-        if(input === 'y' || input === 'yes'){
-            const messages = [
-                `Do you really have something better to do?`,
-                `No <strong>SPAM</strong> for you?`,
-                `Just one more minute!`
-            ]
-            const message = messages[Math.floor(Math.random() * messages.length)];
-            displayMessage(message);
-            displayMessage(`Are you sure you want to quit?`);
-            displayMessage(`(Y)es / (N)o`);
-        }
-        if(input === 'n' || input === 'no'){
-            //Reset the game
-            this.state = 'player name';
-            this.start();
+        switch(input){
+            case 'y':
+            case 'yes':
+                const messages = [
+                    `Do you really have something better to do?`,
+                    `No <strong>SPAM</strong> for you?`,
+                    `Just one more minute!`
+                ]
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                displayMessage(message);
+                displayMessage(`Are you sure you want to quit?`);
+                displayMessage(`(Y)es / (N)o`);
+                break;
+            case 'n':
+            case 'no':
+                //Reset the game
+                this.state = 'player name';
+                this.start();
+                break;
+            default:
+                const valid = ['y','yes','n','no'];
+                displayError(valid);
+                break;
         }
     }
 

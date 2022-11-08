@@ -74,10 +74,10 @@
 - Add input validation
 - Aliens send a random number of Invaders
 - Give Aliens Names
-- You can choose which alien to attack
 - The player has missiles which do more damage than their lasers, but you only have a limited amount.
-- More than one alien can attack at a time.
 - Make battles turn-based.
+- You can choose which alien to attack
+- More than one alien can attack at a time.
 - End Game Boss
 - Add a scoring system and store scores via localStorage
 - Add Multiple Difficulties
