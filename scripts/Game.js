@@ -50,7 +50,6 @@ class Game{
     }
 
     getPlayerShipName(input){
-        console.log('got the ship')
         this.shipName = input;
         // BEGIN NEXT STATE
         this.state = 'intro';
@@ -72,30 +71,34 @@ class Game{
     }
 
     chooseAction(input){
-        //You choose to Attack
-        if(input === 'a' || input === 'attack'){
-            //display attack message
-            //commence battle
-            battle(this.player, this.aliens[0]);
-            //check for victor
-            if(isAlive(this.player)){
-                //remove the first element from the array
-                this.aliens.shift();
-                displayMessage(`Great work!  ${this.aliens.length} aliens remain!`);
-                if(this.aliens.length > 0){
-                    this.getNextAlien();
+        switch(input){
+            case 'a':
+            case 'attack':
+                //commence battle
+                battle(this.player, this.aliens[0]);
+                //check for victor
+                if(isAlive(this.player)){
+                    //remove the first element from the array
+                    this.aliens.shift();
+                    displayMessage(`Great work!  ${this.aliens.length} aliens remain!`);
+                    if(this.aliens.length > 0){
+                        this.getNextAlien();
+                    } else {
+                        //VICTORY
+                        displayMessage(`You have defeated the alien menace!`);
+                        displayMessage(victoryMessage);
+                    }
                 } else {
-                    //VICTORY
-                    displayMessage(`You have defeated the alien menace!`);
-                    displayMessage(victoryMessage);
+                    this.gameOver();
                 }
-            } else {
-                this.gameOver();
-            }
-        }
-        //You choose to Retreat
-        if(input === 'r' || input === 'retreat'){
-            this.gameOver(true);
+                break;
+            case 'r':
+            case 'retreat':
+                this.gameOver(true);
+                break;
+            default:
+                const valid = ['a','attack','r','retreat'];
+                displayError(valid);
         }
     }
 

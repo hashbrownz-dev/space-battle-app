@@ -1,6 +1,24 @@
+const capitalize = (word) => {
+    const array = Array.from(word);
+    array[0] = array[0].toUpperCase();
+    return array.join('');
+}
+
 const displayMessage = (message) => {
     const messageLog = document.getElementById('message-log');
     messageLog.innerHTML += '<br>' + message + '<br>';
+}
+
+const displayError = (valid) => {
+    displayMessage(`Invalid Input`);
+    //if valid is an array of valid inputs than we can use valid.join(', ')
+    displayMessage(`Try to use one of the following: `);
+    const formatted = valid.map((element) => {
+        element[0].toUpperCase();
+        element = "'" + capitalize(element) + "'";
+        return element;
+    })
+    displayMessage(formatted.join(', '));
 }
 
 const displayIntro = (player) => {
