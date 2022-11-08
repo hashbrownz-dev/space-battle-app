@@ -41,25 +41,25 @@ class Alien{
 }
 
 Alien.prototype.nameList = [
-    'Karen',
-    'Kyle',
-    'Chad',
-    'Chaz',
-    'Grayson',
-    'Zayden',
-    'Bryson',
-    'Professor Pumpkin Spice',
-    'Spam Enthusiast',
-    'Spam Addict',
-    'Madison',
-    'Bentley',
-    'Hunter',
-    'Mackenzie',
-    'Mary Sue Ellen',
-    'Zorthos',
-    'Yawgmaw',
-    'Dr Sprinkles',
-    'Powdered Spam Man'
+    'karen',
+    'kyle',
+    'chad',
+    'chaz',
+    'grayson',
+    'zayden',
+    'bryson',
+    'professor pumpkin spice',
+    'spam enthusiast',
+    'spam addict',
+    'madison',
+    'bentley',
+    'hunter',
+    'mackenzie',
+    'mary sue ellen',
+    'zorthos',
+    'yawgmaw',
+    'dr sprinkles',
+    'powdered spam man'
 ];
 
 //ATTACK + LOG RESULT

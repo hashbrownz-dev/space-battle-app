@@ -1,7 +1,17 @@
-const capitalize = (word) => {
-    const array = Array.from(word);
-    array[0] = array[0].toUpperCase();
-    return array.join('');
+const getFirstLetter = (word) => {
+    return word.split('')[0];
+}
+
+const capitalize = (string) => {
+    //split our string into words
+    const words = string.split(' ');
+    //apply that code to each word...
+    const formatted = words.map(word => {
+        const array = Array.from(word);
+        array[0] = array[0].toUpperCase();
+        return array.join('');
+    })
+    return formatted.join(' ');
 }
 
 const displayShortcut = (word) => {
@@ -28,10 +38,10 @@ const displayError = (valid) => {
     displayMessage(`Invalid Input`);
     //if valid is an array of valid inputs than we can use valid.join(', ')
     displayMessage(`Try to use one of the following: `);
-    const formatted = valid.map((element) => {
-        element[0].toUpperCase();
-        element = "'" + capitalize(element) + "'";
-        return element;
+    const formatted = [];
+    valid.forEach(word => {
+        formatted.push(`'${getFirstLetter(word)}'`);
+        formatted.push(`'${word}'`);
     })
     displayMessage(formatted.join(', '));
 }
@@ -61,16 +71,16 @@ const displayRetreat = (player) => {
     )
 }
 
-const displayPlayAgain = () => {
-    displayMessage(
-        `But all hope is not yet lost...`
-    )
+const displayPlayAgain = (loser) => {
+    if(loser){
+        displayMessage(
+            `But all hope is not yet lost...`
+        )
+    }
     displayMessage(
         `Would you like to Play Again?`
     )
-    displayMessage(
-        `(Y)es / (N)o`
-    )
+    displayChoices(['yes','no']);
 }
 
 const displayStatus = (player) => {

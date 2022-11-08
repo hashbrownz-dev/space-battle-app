@@ -7,6 +7,7 @@ class Game{
         this.player;
         this.aliens = this.spawnAliens();
         this.state = 'player name';
+        this.choices = ['attack','sing','missile','retreat','inspect']
     }
     update(input){
         switch(this.state){
@@ -21,6 +22,9 @@ class Game{
                 break;
             case "choose action":
                 this.chooseAction(input);
+                break;
+            case "select target":
+                this.selectTarget(input);
                 break;
             case "play again":
                 this.playAgain(input);
@@ -61,14 +65,19 @@ class Game{
         displayIntro(this.player);
         displayStatus(this.player);
         // BEGIN NEXT STATE
+        displayMessage(`${this.aliens.length} aliens are approaching, and they look very hungry!`);
         this.state = 'choose action';
-        this.getNextAlien();
+        this.getActions();
     }
 
-    getNextAlien(){
-        displayMessage(`${this.aliens.length} aliens remain!`);
-        displayMessage(`${this.aliens[0].name} approaches!  What will you do?`);
-        displayChoices(['attack','missile','retreat']);
+    // getNextAlien(){
+    //     displayMessage(`${this.aliens.length} aliens remain!`);
+    //     displayMessage(`${this.aliens[0].name} approaches!  What will you do?`);
+    //     displayChoices(this.choices);
+    // }
+
+    getActions(){
+        displayChoices(this.choices);
     }
 
     chooseAction(input){
@@ -93,12 +102,51 @@ class Game{
             case 'r':
             case 'retreat':
                 return this.gameOver(true);
+            case 'i':
+            case 'inspect':
+                console.log("Inspector Gadget");
+                break;
             default:
-                const valid = ['a','attack','r','retreat'];
-                displayError(valid);
+                displayError(this.choices);
         }
+        //BEGIN NEXT STATE
+        this.state = 'select target';
+        this.getTargets();
+    }
+
+    getTargets(){
+        //Display a message
+        displayMessage(`Select a Target: `);
+        //Display viable targets
+        const alienNames = this.aliens.map(alien => alien.name);
+        displayChoices(alienNames);
+    }
+
+    selectTarget(input){
+        let target;
+        //determine if our input is a single character or not.
+        if(input.length === 1){
+            target = this.aliens.find((alien) => {
+                const firstChar = getFirstLetter(alien.name);
+                return input === firstChar;
+            })
+        } else {
+            target = this.aliens.find((alien) => input === alien.name)
+        }
+        //Return the target from the aliens array
+        if(target){
+            //BEGIN NEXT STATE
+            this.state = 'choose action';
+            this.getResults(target);
+        } else {
+            const alienNames = this.aliens.map(alien => alien.name);
+            displayError(alienNames);
+        }
+    }
+
+    getResults(target){
         //commence battle
-        battle(this.player, this.aliens[0]);
+        battle(this.player, target);
         //CLEAN UP
         //remove dead + fled aliens
         const current = this.aliens.length;
@@ -110,14 +158,19 @@ class Game{
                 displayMessage(`Great work!`);
                 //If more aliens remain
                 if(this.aliens.length > 0){
-                    this.getNextAlien();
+                    displayMessage(`${this.aliens.length} aliens remain!`);
+                    displayChoices(this.choices);
                 } else {
                     //VICTORY
                     displayMessage(`You have defeated the alien menace!`);
-                    displayMessage(victoryMessage);
+                    displayWin(this.player);
+                    //BEGIN NEXT STATE
+                    this.state = 'play again';
+                    displayMessage(`Another wave of aliens appears on the horizon!`);
+                    displayPlayAgain();
                 }
             } else {
-                displayChoices(['attack','missile','retreat']);
+                displayChoices(this.choices);
             }
         } else {
             this.gameOver();
@@ -134,12 +187,12 @@ class Game{
         } else {
             //DEFEAT
             //Display DEFEAT Message
-            displayMessage(`The ${this.shipName} plummeted to the Earth in a dazzling crimson ball of smoke and fire!`)
+            displayMessage(`The ${this.player.ship} plummeted to the Earth in a dazzling crimson ball of smoke and fire!`)
             displayLoss(this.player);
         }
         //BEGIN NEXT STATE
         this.state = 'play again';
-        displayPlayAgain();
+        displayPlayAgain(true);
     }
 
     playAgain(input){
@@ -156,8 +209,7 @@ class Game{
                 this.pester('y');
                 break;
             default:
-                const valid = ['y','yes','n','no'];
-                displayError(valid);
+                displayError(['yes','no']);
                 break;
         }
     }
@@ -183,8 +235,7 @@ class Game{
                 this.start();
                 break;
             default:
-                const valid = ['y','yes','n','no'];
-                displayError(valid);
+                displayError(['yes','no']);
                 break;
         }
     }
