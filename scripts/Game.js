@@ -37,7 +37,6 @@ class Game{
     start(){
         this.player = Object.create(null);
         this.aliens = this.spawnAliens();
-        console.log(this.aliens);
         clearDisplay();
         clearStatus();
         displayMessage(`What is your name?`);
@@ -69,39 +68,61 @@ class Game{
     getNextAlien(){
         displayMessage(`${this.aliens.length} aliens remain!`);
         displayMessage(`${this.aliens[0].name} approaches!  What will you do?`);
-        displayMessage(`(A)ttack / (R)etreat`)
+        displayChoices(['attack','missile','retreat']);
     }
 
     chooseAction(input){
         switch(input){
             case 'a':
             case 'attack':
-                //commence battle
-                battle(this.player, this.aliens[0]);
-                //check for victor
-                if(isAlive(this.player)){
-                    //remove the first element from the array
-                    this.aliens.shift();
-                    displayMessage(`Great work!`);
-                    if(this.aliens.length > 0){
-                        this.getNextAlien();
-                    } else {
-                        //VICTORY
-                        displayMessage(`You have defeated the alien menace!`);
-                        displayMessage(victoryMessage);
-                    }
-                } else {
-                    this.gameOver();
+                this.player.attack = 'laser';
+                break;
+            case 'm':
+            case 'missile':
+                if(this.player.missiles <= 0){
+                    displayMessage(`Need more missiles!!!`);
+                    displayChoices(['attack','missile','retreat']);
+                    return;
                 }
+                this.player.attack = 'missile';
+                break;
+            case 's':
+            case 'sing':
+                console.log("Dooby dooby doo");
                 break;
             case 'r':
             case 'retreat':
-                this.gameOver(true);
-                break;
+                return this.gameOver(true);
             default:
                 const valid = ['a','attack','r','retreat'];
                 displayError(valid);
         }
+        //commence battle
+        battle(this.player, this.aliens[0]);
+        //CLEAN UP
+        //remove dead + fled aliens
+        const current = this.aliens.length;
+        this.aliens = this.aliens.filter((alien)=>alien.status === 'active');
+        //check if the player is still alive
+        if(isAlive(this.player)){
+            //If you killed the current alien
+            if(current > this.aliens.length){
+                displayMessage(`Great work!`);
+                //If more aliens remain
+                if(this.aliens.length > 0){
+                    this.getNextAlien();
+                } else {
+                    //VICTORY
+                    displayMessage(`You have defeated the alien menace!`);
+                    displayMessage(victoryMessage);
+                }
+            } else {
+                displayChoices(['attack','missile','retreat']);
+            }
+        } else {
+            this.gameOver();
+        }
+        displayStatus(this.player);
     }
 
     gameOver(retreat = false){

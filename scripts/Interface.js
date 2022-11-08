@@ -4,9 +4,24 @@ const capitalize = (word) => {
     return array.join('');
 }
 
+const displayShortcut = (word) => {
+    const array = Array.from(word);
+    array[0] = `(${array[0]})`;
+    return array.join('');
+}
+
 const displayMessage = (message) => {
     const messageLog = document.getElementById('message-log');
     messageLog.innerHTML += '<br>' + message + '<br>';
+}
+
+const displayChoices = (choices) => {
+    const formatted = choices.map((choice) => {
+        choice = capitalize(choice);
+        choice = displayShortcut(choice);
+        return choice;
+    })
+    displayMessage(formatted.join(' / '));
 }
 
 const displayError = (valid) => {
@@ -60,8 +75,8 @@ const displayPlayAgain = () => {
 
 const displayStatus = (player) => {
     const statusLog = document.getElementById('status-log');
-    const { name, hull, hullMax, firepower, accuracy } = player;
-    statusLog.innerHTML = `${name} Hull: ${hull} / ${hullMax} Firepower: ${firepower} Accuracy: ${accuracy}`;
+    const { name, hull, hullMax, firepower, accuracy, missileType, missiles } = player;
+    statusLog.innerHTML = `${name} Hull: ${hull} / ${hullMax} Firepower: ${firepower} Accuracy: ${accuracy} ${capitalize(missileType)} Missiles: ${missiles} `;
 }
 
 const getInput = () => {

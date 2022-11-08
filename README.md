@@ -40,6 +40,13 @@
     - Hull *(Player Health)* = 20
     - Firepower *(Damage Dealt)* = 5
     - Accuracy *(Chance to Hit)* = 0.7
+    - Missiles = 3
+    - Attacks First
+    - Can use Missiles
+        - Attacks with standard missiles take a .2 penalty to accuracy.
+        - Attacks with standard missiles deal double damage.
+        - Attacks with homing missiles are guaranteed to hit.
+        - Attacks with homing missiles deal base damage.
 
 - Aliens
     - ### Properties
@@ -78,6 +85,8 @@
 - Make battles turn-based.
 - You can choose which alien to attack
 - More than one alien can attack at a time.
+- Give aliens temperments ('edgy = attacks every turn','moody = counter attacks occasionally','happy = always counter attacks; occasionally defends allies','neutral' = only counter attacks)
+- Player can sing songs ('arena ballad','somber waltz','dark serenade')
 - End Game Boss
 - Add a scoring system and store scores via localStorage
 - Add Multiple Difficulties
