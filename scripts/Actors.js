@@ -14,12 +14,13 @@ class Player{
 }
 
 class Alien{
-    constructor(name = "The Alien"){
+    constructor(){
         this.hullMax = this.setHull();
         this.hull = this.hullMax;
         this.firepower = this.setFirepower();
         this.accuracy = this.setAccuracy();
         this.name = this.setName();
+        this.temperament = this.setTemperament();
         this.status = 'active'; // three states: 'active', 'dead', 'fled'
     }
     //Get a random value between 3 and 6
@@ -37,6 +38,10 @@ class Alien{
     //Get a random name
     setName(){
         return this.nameList[Math.floor(Math.random() * this.nameList.length)];
+    }
+    //Get a random temperament
+    setTemperament(){
+        return this.temperaments[Math.floor(Math.random() * this.temperaments.length)];
     }
 }
 
@@ -61,6 +66,13 @@ Alien.prototype.nameList = [
     'dr sprinkles',
     'powdered spam man'
 ];
+
+Alien.prototype.temperaments = [
+    'mood',
+    'edgy',
+    'happy',
+    'neutral'
+]
 
 //ATTACK + LOG RESULT
 

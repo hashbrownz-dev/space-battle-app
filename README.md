@@ -88,7 +88,7 @@
     - Additional state for selecting targets.
     - deprecate the getNextAlien() method on Game
 - More than one alien can attack at a time.
-- Give aliens temperments ('edgy = attacks every turn','moody = counter attacks occasionally','happy = always counter attacks; occasionally defends allies','neutral' = only counter attacks)
+- Give aliens temperaments ('edgy = attacks every turn','moody = counter attacks occasionally','happy = always counter attacks; occasionally defends allies','neutral' = only counter attacks)
 - Player can sing songs ('arena ballad','somber waltz','dark serenade')
 - End Game Boss
 - Add a scoring system and store scores via localStorage
