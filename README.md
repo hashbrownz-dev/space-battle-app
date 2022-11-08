@@ -68,3 +68,27 @@
 > ### DEFEAT
 >
 > I'm sorry [USER].  Though your efforts were valiant, they were no match for the Tralfamadorians.  All of humanity was enslaved and forced to work in Spam factories to sate the Tralfamadorians eternal cravings for salty, processed 'meat.'
+
+## STRETCH GOALS
+
+- Add input validation
+- Aliens send a random number of Invaders
+- You can choose which alien to attack
+- The player has missiles which do more damage than their lasers, but you only have a limited amount.
+- More than one alien can attack at a time.
+- Make battles turn-based.
+- End Game Boss
+- Add a scoring system and store scores via localStorage
+- Add Multiple Difficulties
+
+## ADDITIONAL STRETCH GOALS
+
+- Aliens drop items that can be used to power up your ship
+- Cheat Codes
+
+## MAXIMUM STRETCH
+
+- Render Game Elements with Canvas API
+- Add art for the invaders
+- Create a dynamic background
+- Create a database for storing scores.
