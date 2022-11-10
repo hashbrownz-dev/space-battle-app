@@ -90,6 +90,21 @@
 - More than one alien can attack at a time.
 - Give aliens temperaments ('edgy = attacks every turn','moody = counter attacks occasionally','happy = always counter attacks; occasionally defends allies','neutral' = only counter attacks)
 - Player can sing songs ('arena ballad','somber waltz','dark serenade')
+    - Singing allows the player to modify an aliens behavior based on their temperament
+    - Each song has a complimentary temperament:
+        - Arena Ballad = Happy
+        - Somber Waltz = Moody
+        - Dark Serenade = Edgy
+    - Singing a complimentary song will bolster an aliens temperament:
+        - Edgy aliens will get a bonus to accuracy and firepower
+        - Happy aliens will attack every turn
+        - Moody aliens will either mope or self destruct
+    - Two songs have an opposing temperament:
+        - Arena Ballad = Moody
+        - Somber Waltz = Happy
+    - Singing one of these songs to an alien with an opposing temperament will make them 'Edgy'
+    - Edgy aliens will ONLY be affected by the Dark Serenade.  They will mock the player for singing any other song.
+    - Neutral aliens have a 50% chance to change to the complimentary temperament of the chosen song.
 - End Game Boss
 - Add a scoring system and store scores via localStorage
 - Add Multiple Difficulties
@@ -105,3 +120,17 @@
 - Add art for the invaders
 - Create a dynamic background
 - Create a database for storing scores.
+
+## STYLE GUIDES
+
+Key words will have special formatting.
+
+> ### Key Words
+> - **All Alien Names**
+> - **The Player Name and Player Ship Name**
+> - **Each Song Name**
+> - #### Special Words
+>   - Spam
+>   - Human Music
+>   - hyped
+>   - anger

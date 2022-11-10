@@ -23,6 +23,9 @@ class Game{
             case "choose action":
                 this.chooseAction(input);
                 break;
+            case "select song":
+                this.selectSong(input);
+                break;
             case "select target":
                 this.selectTarget(input);
                 break;
@@ -81,6 +84,7 @@ class Game{
     }
 
     chooseAction(input){
+        let sing = false;
         switch(input){
             case 'a':
             case 'attack':
@@ -97,7 +101,8 @@ class Game{
                 break;
             case 's':
             case 'sing':
-                console.log("Dooby dooby doo");
+                this.player.attack = 'sing';
+                sing = true;
                 break;
             case 'r':
             case 'retreat':
@@ -110,8 +115,40 @@ class Game{
                 displayError(this.choices);
         }
         //BEGIN NEXT STATE
-        this.state = 'select target';
-        this.getTargets();
+        this.state = sing ? 'select song' : 'select target';
+        this.state === 'select target' ? this.getTargets() : this.getSong();
+    }
+
+    getSong(){
+        //Display a message
+        displayMessage(`Select a Song: `)
+        //Display viable options
+        displayChoices(this.player.Songs);
+    }
+
+    selectSong(input){
+        this.player.song = '';
+        switch (input){
+            case 'a':
+            case 'arena ballad':
+                this.player.song = 'arena ballad';
+                break;
+            case 's':
+            case 'somber waltz':
+                this.player.song = 'somber waltz';
+                break;
+            case 'd':
+            case 'dark serenade':
+                this.player.song = 'dark serenade';
+                break;
+            default:
+                displayError(this.player.Songs);
+        }
+        if(this.player.song){
+            //BEGIN NEXT STATE
+            this.state = 'select target';
+            this.getTargets();
+        }
     }
 
     getTargets(){
@@ -133,7 +170,6 @@ class Game{
         } else {
             target = this.aliens.find((alien) => input === alien.name)
         }
-        //Return the target from the aliens array
         if(target){
             //BEGIN NEXT STATE
             this.state = 'choose action';

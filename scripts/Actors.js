@@ -10,8 +10,18 @@ class Player{
         this.ship = ship ? ship : "delorean";
         //ATTACK property can be one of three values: laser, missile, song
         this.attack = "laser";
+        //SONGS
+        this.song;
     }
 }
+
+//PLAYER SET LIST
+
+Player.prototype.Songs = [
+    'arena ballad',
+    'somber waltz',
+    'dark serenade'
+]
 
 class Alien{
     constructor(){
@@ -112,7 +122,82 @@ const fireMissile = (attacker, target, type) => {
     }
 }
 
-//singSong handles the song action of the ACTOR
+//sing handles the sing 'attack' of the ACTOR
+const sing = (attacker, target) => {
+    // lets just get the song type and target temperament first
+    const songType = attacker.song,
+        temperament = target.temperament;
+    // we need to get the song type, and then compare it to the appropriate temperament...
+    // let's make some helper functions to make this easier
+    switch (songType){
+        case 'arena ballad':
+            singArenaBallad(target);
+            break;
+        case 'somber waltz':
+            singSomberWaltz(target);
+            break;
+        case 'dark serenade':
+            singDarkSerenade(target);
+            break;
+    }
+}
+
+const singArenaBallad = (target) => {
+    switch(target.temperament){
+        case 'happy':
+            break;
+        case 'moody':
+            break;
+        case 'edgy':
+            break;
+        case 'neutral':
+            if(Math.round(Math.random())) {
+                target.temperament = 'happy';
+                displayMessage(
+                    `${target.name}: I think I like this human music.  I'm feeling hyped!`
+                )
+            }
+            break;
+    }
+}
+
+const singSomberWaltz = (target) => {
+    switch(target.temperament){
+        case 'happy':
+            break;
+        case 'moody':
+            break;
+        case 'edgy':
+            break;
+        case 'neutral':
+            if(Math.round(Math.random())) {
+                target.temperament = 'moody';
+                displayMessage(
+                    `${target.name}:  That Somber Waltz really bummed me out...`
+                )
+            }
+            break;
+    }
+}
+
+const singDarkSerenade = (target) => {
+    switch(target.temperament){
+        case 'happy':
+            break;
+        case 'moody':
+            break;
+        case 'edgy':
+            break;
+        case 'neutral':
+            if(Math.round(Math.random())) {
+                target.temperament = 'edgy';
+                displayMessage(
+                    `${target.name}:  It's just one of those days.  I can feel my anger taking over!!!`
+                )
+            }
+            break;
+    }
+}
 
 //CHECK STATUS
 
@@ -153,7 +238,9 @@ const battle = (game, target) => {
         case "missile":
             displayMessage(fireMissile(player,target,player.missileType));
             break;
-        case "song":
+        case "sing":
+            break;
+        case "inspect":
             break;
         default:
             console.log(`Error: Could not determine player.attack. Value: ${player.attack}`);
