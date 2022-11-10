@@ -96,14 +96,15 @@
         - Somber Waltz = Moody
         - Dark Serenade = Edgy
     - Singing a complimentary song will bolster an aliens temperament:
-        - Edgy aliens will get a bonus to accuracy and firepower
-        - Happy aliens will attack every turn
-        - Moody aliens will either mope or self destruct
+        - Edgy aliens will get a bonus to firepower and a penalty to accuracy
+        - Happy aliens will get a bonus to firepower and accuracy
+        - Moody aliens will either get a bonus to firepower and a penalty to accuracy or self destruct
     - Two songs have an opposing temperament:
         - Arena Ballad = Moody
         - Somber Waltz = Happy
-    - Singing one of these songs to an alien with an opposing temperament will make them 'Edgy'
-    - Edgy aliens will ONLY be affected by the Dark Serenade.  They will mock the player for singing any other song.
+    - Singing one of these songs to an alien with an opposing temperament will make them ***Edgy***
+    - Singing the ***Dark Serenade*** to a ***Happy*** or ***Moody*** alien will invert their temperament.
+    - **Edgy** aliens will ONLY be affected by the ***Dark Serenade***.  They will mock the player for singing any other song.
     - Neutral aliens have a 50% chance to change to the complimentary temperament of the chosen song.
 - End Game Boss
 - Add a scoring system and store scores via localStorage
@@ -129,8 +130,16 @@ Key words will have special formatting.
 > - **All Alien Names**
 > - **The Player Name and Player Ship Name**
 > - **Each Song Name**
+> - **Each Temperament**
 > - #### Special Words
 >   - Spam
 >   - Human Music
 >   - hyped
 >   - anger
+>   - uplifting
+>   - depressing
+>   - angsty
+>   - accuracy
+>   - firepower
+>   - bad mood
+>   - good mood
