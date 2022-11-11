@@ -112,9 +112,10 @@ class Game{
                 this.player.attack = 'inspect';
                 break;
             default:
-                displayError(this.choices);
+                return displayError(this.choices);
         }
         //BEGIN NEXT STATE
+        console.log(this.state);
         this.state = sing ? 'select song' : 'select target';
         this.state === 'select target' ? this.getTargets() : this.getSong();
     }
@@ -123,7 +124,7 @@ class Game{
         //Display a message
         displayMessage(`Select a Song: `)
         //Display viable options
-        displayChoices(this.player.Songs);
+        displaySongs(this.player.Songs);
     }
 
     selectSong(input){
@@ -142,7 +143,7 @@ class Game{
                 this.player.song = 'dark serenade';
                 break;
             default:
-                displayError(this.player.Songs);
+                return displayError(this.player.Songs);
         }
         if(this.player.song){
             //BEGIN NEXT STATE
@@ -152,11 +153,7 @@ class Game{
     }
 
     getTargets(){
-        //Display a message
         displayMessage(`Select a Target: `);
-        //Display viable targets
-        // const alienNames = this.aliens.map(alien => alien.name);
-        // displayChoices(alienNames);
         displayTargets(this.aliens);
     }
 

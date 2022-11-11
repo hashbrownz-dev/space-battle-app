@@ -8,6 +8,7 @@ class Player{
         this.missileType = "standard";
         this.name = name ? name : "mybutt";
         this.ship = ship ? ship : "delorean";
+        this.temperament = 'player';
         //ATTACK property can be one of four values: laser, missile, song
         this.attack = "laser";
         //SONGS
@@ -93,9 +94,9 @@ const attack = (attacker, target) => {
     if(Math.random() <= attacker.accuracy){
         //Reduce the Targets Hull by the Attackers Firepower
         target.hull -= attacker.firepower;
-        return `${capitalize(attacker.name)} fired it's lasers, dealing ${attacker.firepower} damage to ${capitalize(target.name)}!`;
+        return `${renderName(attacker)} fired it's lasers, dealing ${attacker.firepower} damage to ${renderName(target)}!`;
     } else {
-        return `${capitalize(attacker.name)} fired it's lasers at ${capitalize(target.name)} but missed!`;
+        return `${renderName(attacker)} fired it's lasers at ${renderName(target)} but missed!`;
     }
 }
 
@@ -116,9 +117,9 @@ const fireMissile = (attacker, target, type) => {
     attacker.missiles--;
     if(Math.random() <= accuracy){
         target.hull -= firepower;
-        return `${capitalize(attacker.name)} fired a ${capitalize(type)} missile, dealing ${firepower} damage to ${capitalize(target.name)}!`;
+        return `${renderName(attacker)} fired a ${capitalize(type)} missile, dealing ${firepower} damage to ${renderName(target)}!`;
     } else {
-        return `${capitalize(attacker.name)} fired a ${capitalize(type)} missile, but ${capitalize(target.name)} evaded the attack!`;
+        return `${renderName(attacker)} fired a ${capitalize(type)} missile, but ${renderName(target)} evaded the attack!`;
     }
 }
 
@@ -147,7 +148,7 @@ const inspect = (target) => {
 
 const singArenaBallad = (attacker, target) => {
 
-    displayMessage(`${attacker.name} sang an uplifting song to ${target.name}.`);
+    displayMessage(`<strong class='name'>${attacker.name}</strong> sang an uplifting song to ${renderName(target)}.`);
 
     switch(target.temperament){
 
@@ -155,31 +156,30 @@ const singArenaBallad = (attacker, target) => {
             //UPDATE STATS
             target.accuracy += 0.05;
             target.firepower += 1;
-            console.log(target);
             //DISPLAY RESULT
-            displayMessage(`${target.name}: I think I like this human music!  This tune really suits me!`);
-            return `${target.name}'s accuracy rose by <strong class = 'increase'>5%</strong> and their firepower rose by <strong class = 'increase'>1</strong>!`;
+            displayMessage(`${renderName(target)}: I think I like this human music!  This tune really suits me!`);
+            return `${renderName(target)}'s accuracy rose by <strong class = 'increase'>5%</strong> and their firepower rose by <strong class = 'increase'>1</strong>!`;
 
         case 'moody':
-            displayMessage(`${target.name}: What an awful song!  It really put me in a bad mood!`);
-            return `${target.name} is feeling edgy!`
+            displayMessage(`${renderName(target)}: What an awful song!  It really put me in a bad mood!`);
+            return `${renderName(target)} is feeling edgy!`
 
         case 'edgy':
-            return `${target.name}: What a stupid song!  You're better off making spam ${attacker.name}!`;
+            return `${renderName(target)}: What a stupid song!  You're better off making spam ${attacker.name}!`;
 
         case 'neutral':
             if(Math.round(Math.random())) {
                 target.temperament = 'happy';
-                displayMessage(`${target.name}: I think I like this human music.  I'm feeling hyped!`);
-                return `${target.name} is feeling happy!`
+                displayMessage(`${renderName(target)}: I think I like this human music.  I'm feeling hyped!`);
+                return `${renderName(target)} is feeling happy!`
             }
-            return `${attacker.name} song had no effect on ${target.name}!`
+            return `${attacker.name} song had no effect on ${renderName(target)}!`
     }
 }
 
 const singSomberWaltz = (attacker, target) => {
 
-    displayMessage(`${attacker.name} sang a depressing song to ${target.name}.`);
+    displayMessage(`${attacker.name} sang a depressing song to ${renderName(target)}.`);
 
     switch(target.temperament){
 
@@ -188,8 +188,8 @@ const singSomberWaltz = (attacker, target) => {
             target.temperament = 'edgy';
 
             //DISPLAY MESSAGE
-            displayMessage(`${target.name}: What an awful song!  It really put me in a bad mood!`);
-            return `${target.name} is feeling edgy!`
+            displayMessage(`${renderName(target)}: What an awful song!  It really put me in a bad mood!`);
+            return `${renderName(target)} is feeling edgy!`
 
         case 'moody':
             if(Math.round(Math.random())){
@@ -197,8 +197,8 @@ const singSomberWaltz = (attacker, target) => {
                 target.status = 'fled';
 
                 // DISPLAY RESULT
-                displayMessage(`${target.name}: Oh woe is me!  My sadness in unfathomable!  I cannot continue on this way...`);
-                return `${target.name}'s spirit was broken!  They fled the battle!`
+                displayMessage(`${renderName(target)}: Oh woe is me!  My sadness in unfathomable!  I cannot continue on this way...`);
+                return `<${renderName(target)}'s spirit was broken!`
             }
 
             // UPDATE STATS
@@ -206,11 +206,11 @@ const singSomberWaltz = (attacker, target) => {
             target.accuracy -= 0.1;
 
             // DISPLAY RESULT
-            displayMessage(`${target.name}: Such a haunting melody... A sadness I know all too well...`);
-            return `${target.name}'s firepower rose by 1, but their accuracy fell by 10%!`
+            displayMessage(`${renderName(target)}: Such a haunting melody... A sadness I know all too well...`);
+            return `${renderName(target)}'s firepower rose by <strong class='increase'>1</strong>, but their accuracy fell by <strong class='decrease'>10%</strong>!`
 
         case 'edgy':
-            return `${target.name}: What a stupid song!  You're better off making spam ${attacker.name}!`;
+            return `${renderName(target)}: What a stupid song!  You're better off making spam ${attacker.name}!`;
 
         case 'neutral':
             if(Math.round(Math.random())) {
@@ -218,46 +218,46 @@ const singSomberWaltz = (attacker, target) => {
                 target.temperament = 'moody';
 
                 // DISPLAY MESSAGE
-                displayMessage(`${target.name}:  That Somber Waltz really put me in a bad mood...`);
-                return `${target.name} is feeling moody!`;
+                displayMessage(`${renderName(target)}:  That Somber Waltz really put me in a bad mood...`);
+                return `${renderName(target)} is feeling moody!`;
                 
             }
             // DISPLAY MESSAGE
-            return `${attacker.name} song had no effect on ${target.name}!`
+            return `${attacker.name} song had no effect on ${renderName(target)}!`
     }
 }
 
 const singDarkSerenade = (attacker, target) => {
-    displayMessage(`${attacker.name} sang an angsty song to ${target.name}.`);
+    displayMessage(`${attacker.name} sang an angsty song to ${renderName(target)}.`);
     switch(target.temperament){
         case 'happy':
             //UPDATE STATS
             target.temperament = 'moody';
             //DISPLAY MESSAGE
-            displayMessage(`${target.name}: What an awful song!  It really put me in a bad mood!`);
-            return `${target.name} is feeling moody!`;
+            displayMessage(`${renderName(target)}: What an awful song!  It really put me in a bad mood!`);
+            return `${renderName(target)} is feeling moody!`;
 
         case 'moody':
             //UPDATE STATS
             target.temperament = 'happy';
             //DISPLAY MESSAGE
-            displayMessage(`${target.name}: I think I like this human music.  I'm feeling hyped!`);
-            return `${target.name} is feeling happy!`
+            displayMessage(`${renderName(target)}: I think I like this human music.  I'm feeling hyped!`);
+            return `${renderName(target)} is feeling happy!`
 
         case 'edgy':
             //UPDATE STATS
             target.firepower += 1;
             target.accuracy -= 0.1;
             //DISPLAY MESSAGE
-            displayMessage(`${target.name}: Anger is the source of my strength, and this music is making me <strong class='decrease'>very angry!!!</strong>`);
-            return `${target.name}'s firepower rose by <strong class='increase'>1</strong> and their accuracy decreased by <strong class='decrease'>10%</strong>`;
+            displayMessage(`${renderName(target)}: Anger is the source of my strength, and this music is making me <strong class='decrease'>very angry!!!</strong>`);
+            return `${renderName(target)}'s firepower rose by <strong class='increase'>1</strong> and their accuracy decreased by <strong class='decrease'>10%</strong>`;
 
         case 'neutral':
             if(Math.round(Math.random())) {
                 target.temperament = 'edgy';
-                return `${target.name}:  It's just one of those days.  I can feel my anger taking over!!!`;
+                return `${renderName(target)}:  It's just one of those days.  I can feel my anger taking over!!!`;
             }
-            return `${attacker.name} song had no effect on ${target.name}!`
+            return `${attacker.name} song had no effect on ${renderName(target)}!`
     }
 }
 
@@ -328,11 +328,11 @@ const battle = (game, target) => {
             break;
         case 'fled':
             //DISPLAY RETREAT MESSAGE
-            displayMessage(`${target.name} has fled the battle!`);
+            displayMessage(`${renderName(target)} has fled the battle!`);
             //GET BONUS
             break;
         case 'dead':
-            displayMessage(`${capitalize(player.name)} has defeated ${capitalize(target.name)}!`);
+            displayMessage(`${renderName(player)} has defeated ${renderName(target)}!`);
             displayMessage(`Great work!`);
             //GET BONUS
             break;

@@ -37,8 +37,13 @@ const displayChoices = (choices) => {
 
 const displaySongs = (songs) => {
     const formatted = songs.map((song) => {
-
+        const cName = song.replace(' ','-');
+        song = capitalize(song);
+        song = displayShortcut(song);
+        return `<strong class = 'choices ${cName}'>${song}</strong>`;
     })
+    console.log(formatted);
+    displayMessage(formatted.join(''));
 }
 
 const displayTargets = (targets) => {
@@ -64,26 +69,26 @@ const displayError = (valid) => {
 
 const displayIntro = (player) => {
     displayMessage(
-        `${player.name}!  Come in ${player.name}!  The Earth is under attack, and you are our only hope!  The nefarious Tralfamadorians are invading, and they want our <strong>SPAM!</strong>  Take to the skies in your trusty ${player.ship} and defeat this evil alien horde!  For God!  For Country!  For <strong>SPAM!</strong>`
+        `${renderName(player)}!  Come in ${renderName(player)}!  The Earth is under attack, and you are our only hope!  The nefarious Tralfamadorians are invading, and they want our <strong>SPAM!</strong>  Take to the skies in your trusty ${player.ship} and defeat this evil alien horde!  For God!  For Country!  For <strong>SPAM!</strong>`
     );
 }
 
 const displayWin = (player) => {
     displayMessage(
-        `Congratulations ${player.name}!  Your unmatched tactical prowess proved invaluable in the fateful encounter with the Tralfamadorians!  The battle is won!  But know this... as long as there are hungry aliens in search of a salty meaty treat, our Earth will never truly be safe!  In time we will again need your services...<br><br>
+        `Congratulations ${renderName(player)}!  Your unmatched tactical prowess proved invaluable in the fateful encounter with the Tralfamadorians!  The battle is won!  But know this... as long as there are hungry aliens in search of a salty meaty treat, our Earth will never truly be safe!  In time we will again need your services...<br><br>
         But for now, enjoy some <strong>SPAM!</strong>`
     )
 }
 
 const displayLoss = (player) => {
     displayMessage(
-        `I'm sorry ${player.name}.  Though your efforts were valiant, they were no match for the Tralfamadorians.  All of humanity was enslaved and forced to work in <strong>SPAM</strong> factories to sate the Tralfamadorians eternal cravings for salty, processed 'meat.'`
+        `I'm sorry ${renderName(player)}.  Though your efforts were valiant, they were no match for the Tralfamadorians.  All of humanity was enslaved and forced to work in <strong>SPAM</strong> factories to sate the Tralfamadorians eternal cravings for salty, processed 'meat.'`
     )
 }
 
 const displayRetreat = (player) => {
     displayMessage(
-        `${player.name}...  In your cowardice you fled, leaving humanity and it's <strong>SPAM</strong> vulnerable to alien invasion.  Men, women, children, and even babies were enslaved and forced to work in <strong>SPAM</strong> factories to sate the Tralfamadorians eternal cravings for salty, processed 'meat'.`
+        `${renderName(player)}...  In your cowardice you fled, leaving humanity and it's <strong>SPAM</strong> vulnerable to alien invasion.  Men, women, children, and even babies were enslaved and forced to work in <strong>SPAM</strong> factories to sate the Tralfamadorians eternal cravings for salty, processed 'meat'.`
     )
 }
 
@@ -118,4 +123,12 @@ const clearDisplay = () => {
 
 const clearStatus = () => {
     document.getElementById('status-log').innerHTML = '';
+}
+
+const renderName = (actor) => {
+    return `<strong class = 'name ${actor.temperament}'>${actor.name}</strong>`
+}
+
+const renderMood = (mood) => {
+    return `<strong class = '${mood}'>${mood}</strong>`;
 }

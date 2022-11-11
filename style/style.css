@@ -72,6 +72,10 @@ em {
     text-transform: uppercase;
 }
 
+.name{
+    text-transform: capitalize;
+}
+
 .choices {
     padding: 0 8px;
     border-right: 1px solid white;
@@ -81,15 +85,15 @@ em {
     border: none;
 }
 
-.happy{
+.happy, .arena-ballad{
     color: gold;
 }
 
-.moody{
+.moody, .somber-waltz{
     color: lightskyblue;
 }
 
-.edgy{
+.edgy, .dark-serenade{
     color: red;
 }
 
