@@ -8,7 +8,7 @@ class Player{
         this.missileType = "standard";
         this.name = name ? name : "mybutt";
         this.ship = ship ? ship : "delorean";
-        //ATTACK property can be one of three values: laser, missile, song
+        //ATTACK property can be one of four values: laser, missile, song
         this.attack = "laser";
         //SONGS
         this.song;
@@ -133,6 +133,16 @@ const sing = (attacker, target) => {
         case 'dark serenade':
             return singDarkSerenade(attacker, target);
     }
+}
+
+//inspect handles the inspect action of the ACTOR
+
+const inspect = (target) => {
+    const { hullMax, hull, firepower, accuracy, name, temperament } = target;
+    displayMessage(`<strong class = 'alien'>${name}:</strong>`);
+    displayMessage(`Health: ${hull} / ${hullMax}`);
+    displayMessage(`Firepower: ${firepower} | Accuracy: ${accuracy}`);
+    displayMessage(`Mood: <em class = '${temperament}'>${temperament}</em>`);
 }
 
 const singArenaBallad = (attacker, target) => {

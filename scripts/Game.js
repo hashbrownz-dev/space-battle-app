@@ -109,7 +109,7 @@ class Game{
                 return this.gameOver(true);
             case 'i':
             case 'inspect':
-                console.log("Inspector Gadget");
+                this.player.attack = 'inspect';
                 break;
             default:
                 displayError(this.choices);
@@ -155,8 +155,9 @@ class Game{
         //Display a message
         displayMessage(`Select a Target: `);
         //Display viable targets
-        const alienNames = this.aliens.map(alien => alien.name);
-        displayChoices(alienNames);
+        // const alienNames = this.aliens.map(alien => alien.name);
+        // displayChoices(alienNames);
+        displayTargets(this.aliens);
     }
 
     selectTarget(input){
@@ -181,6 +182,9 @@ class Game{
     }
 
     getResults(target){
+        // Inspection only relays info to the player about a target alien.
+        if(this.player.attack === 'inspect') return inspect(target);
+
         //commence battle
         battle(this, target);
         //CLEAN UP

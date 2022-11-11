@@ -27,11 +27,27 @@ const displayMessage = (message) => {
 
 const displayChoices = (choices) => {
     const formatted = choices.map((choice) => {
+        const cName = choice;
         choice = capitalize(choice);
         choice = displayShortcut(choice);
-        return choice;
+        return `<strong class = 'choices ${cName}'>${choice}</strong>`;
     })
-    displayMessage(formatted.join(' / '));
+    displayMessage(formatted.join(''));
+}
+
+const displaySongs = (songs) => {
+    const formatted = songs.map((song) => {
+
+    })
+}
+
+const displayTargets = (targets) => {
+    const formatted = targets.map((target) => {
+        targetName = capitalize(target.name);
+        targetName = displayShortcut(targetName);
+        return `<strong style='color:white'>+</strong>  <strong class = '${target.temperament}'>${targetName}`
+    })
+    displayMessage(formatted.join('<br>'));
 }
 
 const displayError = (valid) => {

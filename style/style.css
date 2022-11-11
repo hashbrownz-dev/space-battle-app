@@ -63,10 +63,64 @@ h1 {
     width: 744px;
 }
 
+/*
+TEXT STYLES
+*/
+
+em {
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.choices {
+    padding: 0 8px;
+    border-right: 1px solid white;
+}
+
+.choices:last-of-type {
+    border: none;
+}
+
+.happy{
+    color: gold;
+}
+
+.moody{
+    color: lightskyblue;
+}
+
+.edgy{
+    color: red;
+}
+
+.neutral{
+    color: lightgray;
+}
+
 .increase {
     color: lime;
 }
 
 .decrease {
     color: red;
+}
+
+.attack {
+    color: red;
+}
+
+.sing {
+    color: lime;
+}
+
+.missile {
+    color: gold;
+}
+
+.inspect {
+    color: cyan
+}
+
+.retreat {
+    color: pink;
 }
